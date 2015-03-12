@@ -1,0 +1,295 @@
+require 'rails_helper'
+
+RSpec.describe UsersController, :type => :controller do
+render_views
+
+	describe "GET 'show'" do
+	
+		before(:each) do
+			@user = FactoryGirl.create(:user)
+		end
+		
+		it "devrait réussir" do
+			get :show, :id => @user
+			expect(response).to be_success
+		end
+		
+		it "devrait trouver le bon utilisateur" do
+			get :show, :id => @user
+			expect(assigns(:user)).to eq(@user)
+		end
+		
+		it "devrait avoir le nom d'utilisateur" do
+			get :show, :id => @user
+			expect(response.body).to have_selector("h1", :text => @user.nom)
+		end
+		
+		it "devrait avoir une image de profil" do
+			get :show, :id => @user
+			expect(response.body).to have_selector("h1>img[class='gravatar'][width='50']")
+		end
+		
+		it "devrait afficher les micro-messages de l'utilisateur" do
+			mp1 = FactoryGirl.create(:micropost, :user => @user, :content => "foo bar")
+			mp2 = FactoryGirl.create(:micropost, :user => @user, :content => "Baz quux")
+			get :show, :id => @user
+			expect(response.body).to have_selector("span[class = 'content']", :text => mp1.content)
+			expect(response.body).to have_selector("span[class = 'content']", :text => mp2.content)
+		end
+	end
+
+	describe "GET 'new'" do
+		it "returns http success" do
+			get 'new'
+			expect(response).to be_success
+		end
+		
+		it "devrait avoir le bon titre" do
+			get 'new'
+			expect(response.body).to have_title('Application de Brasco | Inscription')
+		end
+	end
+	
+	describe "POST 'create'" do
+	
+		describe "échec" do
+		
+			before(:each) do
+				@attr = { :nom => "", :email => "", :password => "", :password_confirmation => "" }
+			end
+			
+			it "ne devrait pas créer d'utilisateur" do
+			expect { post :create, :user => @attr }.not_to change(User, :count)
+			end
+			
+			it "devrait avoir le bon titre" do
+				post :create, :user => @attr
+				expect(response.body).to have_title('Application de Brasco | Inscription')
+			end
+			
+			it "devrait rendre la page 'new'" do
+				post :create, :user => @attr
+				expect(response).to render_template('new')
+			end	
+		end
+		
+		describe "réussite" do
+		
+			before(:each) do
+				@attr = { :nom => "maxbbt", :email => "testmail@dfd.com", :password => "secret", :password_confirmation => "secret" }
+			end
+			
+			it "devrait créer un utilisateur" do
+			expect { post :create, :user => @attr }.to change(User, :count).by(1)
+			end
+			
+			it "devrait rediriger vers la page d'affichage de l'utilisateur" do
+				post :create, :user => @attr
+				expect(response).to redirect_to(user_path(assigns(:user)))
+			end
+			
+			it "devrait identifier l'utilisateur" do
+				post :create, :user => @attr
+				expect(controller).to be_signed_in
+			end
+			
+			it "devrait avoir un message de bienvenue" do
+				post :create, :user => @attr
+				expect(flash[:success]).to be =~ /Bienvenue dans l'Application de Brasco/i
+			end
+		end
+	end
+	
+	describe "GET 'edit'" do
+		
+		before(:each) do
+		@user = FactoryGirl.create(:user)
+		test_sign_in(@user)
+		end
+		
+		it "devrait réussir" do
+			get :edit, :id => @user
+			expect(response).to be_success
+		end
+		
+		it "devrait avoir le bon titre" do
+			get :edit, :id => @user
+			expect(response.body).to have_title('Application de Brasco | Edition profil')
+		end
+		
+		it "devrait avoir un lien pout changer l'image Gravatar" do
+			get :edit, :id => @user
+			gravatar_url = "http://gravatar.com/emails"
+			expect(response.body).to have_selector("h1", :text => "Edition du profil")
+			expect(response.body).to have_selector("a[href='#{gravatar_url}']", :text => "changer")
+		end
+	end
+	
+	describe "PUT 'update'" do
+	
+		before(:each) do
+			@user = FactoryGirl.create(:user)
+			test_sign_in(@user)
+		end
+		
+		describe "Echec" do
+		
+			before(:each) do
+				@attr = { :email => "", :nom => "", :password => "", :password_confirmation => "" }
+			end
+			
+			it "devrait retourner la page d'édition" do
+				put :update, :id => @user, :user => @attr
+				expect(response).to render_template('edit')
+			end
+			
+			it "devrait avoir le bon titre" do
+				put :update, :id => @user, :user => @attr
+				expect(response.body).to have_title("Application de Brasco | Edition profil")
+			end
+		end
+		
+		describe "succès" do
+		
+			before (:each) do
+				@attr = { :nom => "new name", :email => "user@example.org", :password => "secret2", :password_confirmation => "secret2" }
+			end
+			
+			it "devrait modifier les caractéristiques de l'utilisateur" do
+				put :update, :id => @user, :user => @attr
+				@user.reload
+				expect(@user.nom).to be == @attr[:nom]
+				expect(@user.email).to be == @attr[:email]
+			end
+			
+			it "devait rediriger vers la page d'affichage de l'utilisateur" do
+				put :update, :id => @user, :user => @attr
+				expect(response).to redirect_to(user_path(@user))
+			end
+			
+			it "devrait afficher un message flash" do
+				put :update, :id => @user, :user => @attr
+				expect(flash[:success]).to be =~ /Profil actualisé/i
+			end
+		end
+	end
+	
+	describe "authentification des pages edit/update" do
+	
+		before(:each) do
+			@user = FactoryGirl.create(:user)
+		end
+		
+		describe "pour un utilisateur non identifié" do
+		
+			it "devrait refuser l'accès à l'action 'edit'" do
+				get :edit, :id => @user
+				expect(response).to redirect_to(signin_path)
+			end
+			
+			it "devrait refuser l'accès à l'action 'update'" do
+				put :update, :id => @user, :user => {}
+				expect(response).to redirect_to(signin_path)
+			end
+		end
+		
+		describe "pour un utilisateur identifié" do
+		
+			before(:each) do
+				wrong_user = FactoryGirl.create(:user, :email => "user@example.net")
+				test_sign_in(wrong_user)
+			end
+			
+			it "devrait correspondre à l'utilisateur à éditer" do
+				get :edit, :id => @user
+				expect(response).to redirect_to(root_path)
+			end
+			
+			it "devrait correspondre à l'utilisateur à actualiser" do
+				put :update, :id => @user, :user => {}
+				expect(response).to redirect_to(root_path)
+			end
+		end
+	end
+	
+	describe "GET 'index'" do
+
+		describe "pour utilisateur non identifiés" do
+			
+			it "devrait refuser l'accès" do
+        		get :index
+        		expect(response).to redirect_to(signin_path)
+        		expect(flash[:notice]).to be =~ /identifier/i
+			end
+		end
+
+		describe "pour un utilisateur identifié" do
+
+			before(:each) do
+				@user = test_sign_in(FactoryGirl.create(:user))
+		     	second = FactoryGirl.create(:user, :email => "another@example.com")
+		     	third  = FactoryGirl.create(:user, :email => "another@example.net")
+
+		     	@users = [@user, second, third]
+			end
+
+			it "devrait réussir" do
+				get :index
+		     	expect(response).to be_success
+			end
+
+			it "devrait avoir le bon titre" do
+		     	get :index
+		     	expect(response.body).to have_title("Application de Brasco | Tous les utilisateurs")
+			end
+
+			it "devrait avoir un élément pour chaque utilisateur" do
+		     	get :index
+		     	@users.each do |user|
+		      	expect(response.body).to have_selector("li", :text => user.nom)
+		     	end
+			end
+		end
+	end
+	
+  	describe "DELETE 'destroy'" do
+
+    	before(:each) do
+      	@user = FactoryGirl.create(:user)
+    	end
+
+    	describe "en tant qu'utilisateur non identifié" do
+      	it "devrait refuser l'accès" do
+        		delete :destroy, :id => @user
+        		expect(response).to redirect_to(signin_path)
+      	end
+    	end
+
+    	describe "en tant qu'utilisateur non administrateur" do
+      	it "devrait protéger la page" do
+        		test_sign_in(@user)
+        		delete :destroy, :id => @user
+        		expect(response).to redirect_to(root_path)
+      	end
+    	end
+
+    	describe "en tant qu'administrateur" do
+
+      	before(:each) do
+        		admin = FactoryGirl.create(:user, :email => "admin@example.com", :admin => true)
+        		test_sign_in(admin)
+      	end
+
+			it "devrait détruire l'utilisateur" do
+        		lambda do
+          	expect { delete :destroy, :id => @user }.to change(User, :count).by(1)
+      		end
+      	end
+
+      	it "devrait rediriger vers la page des utilisateurs" do
+        		delete :destroy, :id => @user
+        		expect(response).to redirect_to(users_path)
+      	end
+    	end
+  	end		
+end
