@@ -45,7 +45,7 @@ RSpec.describe Micropost, :type => :model do
  		end
  		
  		it "requiert un contenu non vide" do
- 			expect(microposts.build(:content => "  ")).not_to be_valid
+ 			expect(@user.microposts.build(:content => "  ")).not_to be_valid
  		end
  		
  		it "devrait rejeter un contenu trop long" do

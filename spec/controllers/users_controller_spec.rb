@@ -291,5 +291,40 @@ render_views
         		expect(response).to redirect_to(users_path)
       	end
     	end
+  	end
+  	
+  	describe "Les pages de suivi" do
+  	
+  		describe "quand pas identifié" do
+  		
+  			it "devrait protéger les auteurs suivis" do
+  				get :following, :id => 1
+  				expect(response).to redirect_to(signin_path)
+  			end
+  			
+  			it "devrait protéger les lecteurs" do
+  				get :followers, :id => 1
+  				expect(response).to redirect_to(signin_path)
+  			end
+  		end
+  		
+  		describe "quand identifié" do
+  		
+  			before(:each) do
+  				@user = test_sign_in(FactoryGirl.create(:user))
+  				@other_user = FactoryGirl.create(:user, :email => "other@gmail.com")
+  				@user.follow!(@other_user)
+  			end
+  			
+  			it "devrait afficher les auteurs suivis par l'utilisateur" do
+  				get :following, :id => @user
+  				expect(response.body).to have_selector("a[href='#{user_path(@other_user)}']", :text => "#{@other_user.nom}")
+  			end
+  			
+  			it "devrait afficher les lecteurs de l'utilisateur" do
+  				get :followers, :id => @other_user
+  				expect(response.body).to have_selector("a[href='#{user_path(@user)}']", :text => "#{@user.nom}")
+  			end
+  		end
   	end		
 end

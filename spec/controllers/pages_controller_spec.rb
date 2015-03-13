@@ -10,17 +10,39 @@ describe PagesController do
 	end
 
 	describe "GET 'home'" do
-		it "devrait réussir" do
-      	get 'home'
-      	expect(response).to be_success	
-		end
+	
+		describe "quand pas identifié" do
+		
+			before(:each) do
+				get :home
+			end
+			
+			it "devrait réussir" do
+		   	expect(response).to be_success	
+			end
 
-		it "devrait avoir le bon titre" do
-      	get 'home'
-      	expect(response.body).to have_title("#{@basetitre} | Accueil")
+			it "devrait avoir le bon titre" do
+		   	expect(response.body).to have_title("#{@basetitre} | Accueil")
+			end
+		end
+		
+		describe "quand identifié" do
+		
+			before(:each) do
+				@user = test_sign_in(FactoryGirl.create(:user))
+				other_user = FactoryGirl.create(:user, :email => "user2@gmail.com")
+				other_user.follow!(@user)
+			end
+			
+			it "devrait avoir le bon compte d'auteurs et de lecteurs" do
+				get :home
+				expect(response.body).to have_selector("h1[class='micropost']", :text => "Quoi de neuf ?")
+				expect(response.body).to have_selector("a[href='#{following_user_path(@user)}']", :text => "0 auteurs suivis")
+				expect(response.body).to have_selector("a[href='#{followers_user_path(@user)}']", :text => "1 lecteur")
+			end
 		end
 	end
-
+	
 	describe "GET 'contact'" do
     	it "devrait réussir" do
       	get 'contact'
@@ -56,6 +78,4 @@ describe PagesController do
       	expect(response.body).to have_title("#{@basetitre} | Aide")
 		end	
 	end
-  
-  
 end

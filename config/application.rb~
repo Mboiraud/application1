@@ -13,7 +13,7 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-config.serve_static_assets = true
+#config.serve_static_assets = true
 
 module SampleApp
   class Application < Rails::Application

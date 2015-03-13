@@ -217,6 +217,71 @@ RSpec.describe User, :type => :model do
  				mp3 = FactoryGirl.create(:micropost, :user => user2)
  				expect(@user.feed.include?(mp3)).not_to be_truthy
  			end
+ 			
+ 			
+      it "devrait inclure les micro-messages des utilisateurs suivis" do
+        followed = FactoryGirl.create(:user, :email => "user2@gmail.com")
+        mp3 = FactoryGirl.create(:micropost, :user => followed)
+        @user.follow!(followed)
+        expect(@user.feed).to include(mp3)
+      end
+ 		end
+ 	end
+ 	
+ 	describe "realtionships" do
+ 		
+ 		before(:each) do
+ 			@user = User.create!(@attr)
+ 			@followed = FactoryGirl.create(:user)
+ 		end
+ 		
+ 		it "devrait avoir une méthode 'relationships'" do
+ 			expect(@user).to respond_to(:relationships)
+ 		end
+ 		
+ 		it "devrait posséder une méthode 'following'" do
+ 			expect(@user).to respond_to(:following)
+ 		end
+ 		
+ 		it "devrait avoir une méthode following?" do
+ 			expect(@user).to respond_to(:following?)
+ 		end
+ 		
+ 		it "devait avoir une méthode follow!" do
+ 			expect(@user).to respond_to(:follow!)
+ 		end
+ 		
+ 		it "devrait suivre un autre utilisateur" do
+ 			@user.follow!(@followed)
+ 			expect(@user).to be_following(@followed)
+ 		end
+ 		
+ 		it "devait inclure l'utilisateur suivi dans la liste following" do
+ 			@user.follow!(@followed)
+ 			expect(@user.following).to include(@followed)
+ 		end
+ 		
+ 		it "devrait avoir une méthode unfollow!" do
+ 			expect(@followed).to respond_to(:unfollow!)
+ 		end
+ 		
+ 		it "devrait arrêter de suivre un utilisateur" do
+ 			@user.follow!(@followed)
+ 			@user.unfollow!(@followed)
+ 			expect(@user).not_to be_following(@followed)
+ 		end
+ 		
+ 		it "devrait avoir une méthode reverse_relationships" do
+ 			expect(@user).to respond_to(:reverse_relationships)
+ 		end
+ 		
+ 		it "devrait avoir une méthode followers" do
+ 			expect(@user).to respond_to(:followers)
+ 		end
+ 		
+ 		it "devrait inclure le lecteur dans le tableau des lecteurs" do
+ 			@user.follow!(@followed)
+ 			expect(@followed.followers).to include(@user)
  		end
  	end	
 end
