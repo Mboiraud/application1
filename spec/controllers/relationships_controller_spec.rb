@@ -1,3 +1,5 @@
+#relationships pour suivre des utilisateurs
+=begin
 require 'rails_helper'
 
 RSpec.describe RelationshipsController, :type => :controller do
@@ -44,3 +46,4 @@ render_views
     	end
   	end
 end
+=end

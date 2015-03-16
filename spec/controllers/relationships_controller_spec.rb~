@@ -39,10 +39,8 @@ render_views
     	end
 
     	it "devrait détruire une relation" do
-      	lambda do
-        	delete :destroy, :id => @relationship
-        	response.should be_redirect
-      	end.should change(Relationship, :count).by(-1)
+        	expect { delete :destroy, :id => @relationship }.to change(Relationship, :count).by(-1)
+        	expect(response).to be_redirect
     	end
   	end
 end

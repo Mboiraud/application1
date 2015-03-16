@@ -318,7 +318,7 @@ render_views
   			
   			it "devrait afficher les auteurs suivis par l'utilisateur" do
   				get :following, :id => @user
-  				expect(response.body).to have_selector("a[href='#{user_path(@user)}']", :text => "#{@other_user.nom}")
+  				expect(response.body).to have_selector("a[href='#{user_path(@other_user)}']", :text => "#{@other_user.nom}")
   			end
   			
   			it "devrait afficher les lecteurs de l'utilisateur" do

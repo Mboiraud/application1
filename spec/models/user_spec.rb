@@ -218,16 +218,19 @@ RSpec.describe User, :type => :model do
  				expect(@user.feed.include?(mp3)).not_to be_truthy
  			end
  			
- 			
-      it "devrait inclure les micro-messages des utilisateurs suivis" do
-        followed = FactoryGirl.create(:user, :email => "user2@gmail.com")
-        mp3 = FactoryGirl.create(:micropost, :user => followed)
-        @user.follow!(followed)
-        expect(@user.feed).to include(mp3)
-      end
+#relationships pour suivre des utilisateurs
+=begin 			
+      	it "devrait inclure les micro-messages des utilisateurs suivis" do
+        		followed = FactoryGirl.create(:user, :email => "user2@gmail.com")
+        		mp3 = FactoryGirl.create(:micropost, :user => followed)
+        		@user.follow!(followed)
+        		expect(@user.feed).to include(mp3)
+      	end
+=end
  		end
  	end
- 	
+#relationships pour suivre des utilisateurs
+=begin 	
  	describe "realtionships" do
  		
  		before(:each) do
@@ -283,5 +286,6 @@ RSpec.describe User, :type => :model do
  			@user.follow!(@followed)
  			expect(@followed.followers).to include(@user)
  		end
- 	end	
+ 	end
+=end	
 end

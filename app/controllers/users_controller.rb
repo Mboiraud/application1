@@ -55,7 +55,9 @@ class UsersController < ApplicationController
     	flash[:success] = "Utilisateur supprimé."
     	redirect_to users_path
   	end
-  	
+
+#relationships pour suivre des utilisateurs
+=begin  	
   	def following
   		@titre = "Following"
   		@user = User.find(params[:id])
@@ -68,7 +70,8 @@ class UsersController < ApplicationController
   		@user = User.find(params[:id])
   		@users = @user.followers.paginate(:page => params[:page])
   		render 'show_follow'
-  	end 	
+  	end 
+=end	
 	
 	private
 	

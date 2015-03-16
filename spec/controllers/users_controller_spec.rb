@@ -292,7 +292,8 @@ render_views
       	end
     	end
   	end
-  	
+#relationships pour suivre des utilisateurs
+=begin  	
   	describe "Les pages de suivi" do
   	
   		describe "quand pas identifié" do
@@ -326,5 +327,6 @@ render_views
   				expect(response.body).to have_selector("a[href='#{user_path(@user)}']", :text => "#{@user.nom}")
   			end
   		end
-  	end		
+  	end
+=end		
 end

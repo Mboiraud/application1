@@ -220,8 +220,8 @@ RSpec.describe User, :type => :model do
  			
  			
       it "devrait inclure les micro-messages des utilisateurs suivis" do
-        followed = Factory(:user, :email => "user2@gmail.com")
-        mp3 = Factory(:micropost, :user => followed)
+        followed = FactoryGirl.create(:user, :email => "user2@gmail.com")
+        mp3 = FactoryGirl.create(:micropost, :user => followed)
         @user.follow!(followed)
         expect(@user.feed).to include(mp3)
       end

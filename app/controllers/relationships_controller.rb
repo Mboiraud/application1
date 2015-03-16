@@ -1,6 +1,11 @@
 class RelationshipsController < ApplicationController
   	before_filter :authenticate
 
+
+
+
+#rlationship pour suivre des utilisateurs
+=begin
   	def create
     	@user = User.find(relationship_params[:followed_id])
     	current_user.follow!(@user)
@@ -23,3 +28,4 @@ class RelationshipsController < ApplicationController
 		params.require(:relationship).permit(:id, :follower_id, :followed_id)
 	end
 end
+=end

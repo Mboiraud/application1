@@ -38,7 +38,6 @@ describe PagesController do
 				get :home
 				expect(response.body).to have_selector("h1[class='micropost']", :text => "Quoi de neuf ?")
 				expect(response.body).to have_selector("a[href='#{following_user_path(@user)}']", :text => "0 auteurs suivis")
-				
 				expect(response.body).to have_selector("a[href='#{followers_user_path(@user)}']", :text => "1 lecteur")
 			end
 		end

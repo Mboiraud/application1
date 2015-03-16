@@ -52,4 +52,34 @@ RSpec.describe Micropost, :type => :model do
  			expect(@user.microposts.build(:content => "a" * 141)).not_to be_valid
  		end
  	end
+ 	
+	describe "from_users_followed_by" do
+
+    	before(:each) do
+      	@other_user = FactoryGirl.create(:user, :email => "user2@gmail.com")
+      	@third_user = FactoryGirl.create(:user, :email => "user3@gmail.com")
+
+      	@user_post  = @user.microposts.create!(:content => "foo")
+      	@other_post = @other_user.microposts.create!(:content => "bar")
+      	@third_post = @third_user.microposts.create!(:content => "baz")
+
+      	@user.follow!(@other_user)
+    	end
+
+    	it "devrait avoir une méthode de classea from_users_followed_by" do
+      expect(Micropost).to respond_to(:from_users_followed_by)
+    	end
+
+    	it "devrait inclure les micro-messages des utilisateurs suivis" do
+      expect(Micropost.from_users_followed_by(@user)).to include(@other_post)
+    	end
+
+    	it "devrait inclure les propres micro-messages de l'utilisateur" do
+      expect(Micropost.from_users_followed_by(@user)).to include(@user_post)
+    	end
+
+    	it "ne devrait pas inclure les micro-messages des utilisateurs non suivis" do
+      expect(Micropost.from_users_followed_by(@user)).not_to include(@third_post)
+    	end
+  	end
 end
