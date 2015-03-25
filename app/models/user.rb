@@ -16,17 +16,14 @@ class User < ActiveRecord::Base
 	attr_accessor :password
 	
 	has_many :microposts, :dependent => :destroy
-#relationships pour suivre des utilisateurs
-=begin	
-	has_many :relationships, :foreign_key => "follower_id",
-									:dependent => :destroy
-
-	has_many :following, :through => :relationships, :source => :followed
-	has_many :reverse_relationships, :foreign_key => "followed_id",
-												:class_name => "Relationship",
+	
+	has_many :friendships, :dependent => :destroy
+	has_many :friends, :through => :friendships
+	has_many :inverse_friendships, :foreign_key => "friend_id",
+												:class_name => "Friendship",
 												:dependent => :destroy
-	has_many :followers, :through => :reverse_relationships, :source => :follower
-=end	
+	has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+
 	validates :nom, 	:presence => true,
 							:length => { :maximum => 50 }
 							
@@ -56,6 +53,19 @@ class User < ActiveRecord::Base
 		Micropost.where("user_id = ?", id)
 	end
 
+	def friend?(user, friend)
+		user.friendships.where(:friend_id => friend.id).where(:status => "accepted").first or friend.friendships.where(:friend_id => user.id).where(:status => "accepted").first
+	end
+	
+	def pendingfriend?(user, friend)
+		user.friendships.where(:friend_id => friend.id).where(:status => "pending").first 
+	end
+	
+	def request!(friend)
+		friendships.create!(:friend_id => friend.id, :status => "pending")
+	end
+	
+	
 #relationships pour suivre des utilisateurs
 =begin
 	def following?(followed)

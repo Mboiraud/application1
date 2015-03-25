@@ -1,0 +1,5 @@
+<%= form_for current_user.friendships.find_by_friend_id(@user) || current_user.inverse_friendships.find_by_user_id(@user),
+             :html => { :method => :delete } do |f| %>
+  	<div class="actions"><%= f.submit "Supprimer des amis" %></div>
+<% end %>
+

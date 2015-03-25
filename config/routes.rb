@@ -15,7 +15,7 @@ SampleApp::Application.routes.draw do
   	resources :users
   	resources :sessions, :only => [:new, :create, :destroy]
   	resources :microposts, :only => [:create, :destroy]
-  	resources :relationships, :only => [:create, :destroy]
+  	resources :friendships, :only => [:create, :destroy, :update]
   
   	get '/signup', :to => 'users#new'
   	get '/signin', :to => 'sessions#new'
@@ -25,6 +25,7 @@ SampleApp::Application.routes.draw do
   	get '/about',   :to => 'pages#about'
   	get '/help',    :to => 'pages#help'
   	get '/home',		:to => 'pages#home'
+  	#post "book/create"
 
   
   	root :to => 'pages#home'

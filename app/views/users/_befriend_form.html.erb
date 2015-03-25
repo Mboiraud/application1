@@ -1,0 +1,13 @@
+<% unless current_user?(@user) %>
+  	<div id="follow_form">
+  	<% if current_user.friend?(@user, current_user) %>
+    	<%= render 'deletefriend' %>
+  	<% elsif current_user.pendingfriend?(@user, current_user) %>
+  		<%= render 'acceptfriend' %>
+  	<% elsif current_user.pendingfriend?(current_user, @user) %>
+  		<%= render 'deletefriend' %>
+  	<% else %>
+    	<%= render 'addfriend' %>
+  	<% end %>
+  	</div>
+<% end %>

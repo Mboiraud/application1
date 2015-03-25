@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RelationshipsController, :type => :controller do
+RSpec.describe FriendshipsController, :type => :controller do
 render_views
 
   	describe "Le contrôle d'accès" do
@@ -14,6 +14,24 @@ render_views
       	delete :destroy, :id => 1
       	expect(response).to redirect_to(signin_path)
     	end
+	end
+	
+	describe "POST 'create'" do
+
+		before(:each) do
+      	@user = test_sign_in(FactoryGirl.create(:user))
+      	@friend = FactoryGirl.create(:user, :email => "autree@gmail.com")
+    	end
+
+    	it "devrait créer une relation" do
+        	expect { post :create, :friendship => { :friend_id => @friend } }.to change(Friendship, :count).by(1)
+        	expect(response).to be_redirect 
+    	end
+  	end
+end
+#relationships pour suivre des utilisateurs
+=begin
+
   	end
 
   	describe "POST 'create'" do
@@ -44,3 +62,4 @@ render_views
     	end
   	end
 end
+=end

@@ -216,7 +216,7 @@ RSpec.describe User, :type => :model do
  				user2 = FactoryGirl.create(:user, :email => "user2@gmail.com")
  				mp3 = FactoryGirl.create(:micropost, :user => user2)
  				expect(@user.feed.include?(mp3)).not_to be_truthy
- 			end
+			end
  			
 #relationships pour suivre des utilisateurs
 =begin 			
@@ -227,46 +227,82 @@ RSpec.describe User, :type => :model do
         		expect(@user.feed).to include(mp3)
       	end
 =end
- 		end
+		end
  	end
-#relationships pour suivre des utilisateurs
-=begin 	
- 	describe "realtionships" do
+	
+ 	describe "friendships" do
  		
  		before(:each) do
  			@user = User.create!(@attr)
- 			@followed = FactoryGirl.create(:user)
+ 			@friend = FactoryGirl.create(:user)
  		end
  		
- 		it "devrait avoir une méthode 'relationships'" do
- 			expect(@user).to respond_to(:relationships)
+ 		it "devrait avoir une méthode 'friendships'" do
+ 			expect(@user).to respond_to(:friendships)
  		end
  		
- 		it "devrait posséder une méthode 'following'" do
- 			expect(@user).to respond_to(:following)
+ 		it "devrait avoir une méthode 'friends'" do
+ 			expect(@user).to respond_to(:friends)
  		end
  		
- 		it "devrait avoir une méthode following?" do
- 			expect(@user).to respond_to(:following?)
+ 		it "devrait avoir une méthode 'inverse_friendships'" do
+ 			expect(@user).to respond_to(:inverse_friendships)
  		end
  		
- 		it "devait avoir une méthode follow!" do
- 			expect(@user).to respond_to(:follow!)
+ 		it "devrait avoir une méthode 'inverse_friends'" do
+ 			expect(@user).to respond_to(:inverse_friends)
  		end
  		
- 		it "devrait suivre un autre utilisateur" do
- 			@user.follow!(@followed)
- 			expect(@user).to be_following(@followed)
+ 		it "devrait ajouter un nouvel ami 1er sens" do
+ 			@user.friendships.create(:friend_id => @friend.id, :status => "accepted")
+ 			expect(@user).to be_friend(@user, @friend)
+ 			expect(@user.friend?(@user, @friend)).to be_truthy
  		end
+ 		
+ 		it "devrait ajouter un nouvel ami 2eme sens" do
+ 			@user.friendships.create(:friend_id => @friend.id, :status => "accepted")
+ 			expect(@friend).to be_friend(@user, @friend)
+ 			expect(@friend).to be_friend(@friend, @user)
+ 		end
+ 		
+ 		it "devrait supprimer un ami 1er sens" do
+ 			@user.friendships.create(:friend_id => @friend.id, :status => "accepted")
+ 			@user.friendships.find_by_friend_id(@friend).destroy
+ 			expect(@user).not_to be_friend(@user, @friend)
+ 		end
+ 		
+ 		it "devrait supprimer un ami 2eme sens" do
+ 			@user.friendships.create(:friend_id => @friend.id, :status => "accepted")
+ 			@friend.inverse_friendships.find_by_user_id(@user).destroy
+ 			expect(@user).not_to be_friend(@user, @friend)
+ 		end
+ 		
+ 		it "devrait avoir une méthode request!" do
+			expect(@user).to respond_to(:request!) 		
+ 		end
+ 		
+ 		it "devrait créer une demande d'ami" do
+ 			expect { @user.request!(@friend) }.to change(Friendship, :count).by(1)
+ 			expect(@user.friendships.find_by_friend_id(@friend).status).to eq("pending")
+ 			expect(@friend.inverse_friendships.find_by_user_id(@user).status).to eq("pending")
+ 			expect(@user).not_to be_friend(@user, @friend)
+ 		end
+ 		
+ 		it "devrait avoir une méthode pendingfriend?" do
+ 			@user.request!(@friend)
+ 			expect(@user).to be_pendingfriend(@user, @friend)
+ 			expect(@friend).not_to be_pendingfriend(@friend, @user)
+ 		end
+ 	end
+end
+#relationships pour suivre des utilisateurs
+=begin  		
  		
  		it "devait inclure l'utilisateur suivi dans la liste following" do
  			@user.follow!(@followed)
  			expect(@user.following).to include(@followed)
  		end
  		
- 		it "devrait avoir une méthode unfollow!" do
- 			expect(@followed).to respond_to(:unfollow!)
- 		end
  		
  		it "devrait arrêter de suivre un utilisateur" do
  			@user.follow!(@followed)
@@ -288,4 +324,4 @@ RSpec.describe User, :type => :model do
  		end
  	end
 =end	
-end
+

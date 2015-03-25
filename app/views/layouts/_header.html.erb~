@@ -2,7 +2,7 @@
 	<%= link_to logo, root_path %>
 	<nav class="round">
 		<ul>
-			<li><%= link_to "Accueil", root_path %></li>
+			<li>"Accueil"</li>
 			<% if signed_in? %>
 				<li><%= link_to "Utilisateurs", users_path %></li>
       		<li><%= link_to "Réglages", edit_user_path(current_user) %></li>
@@ -12,7 +12,7 @@
 		   <% if signed_in? %>
 		   	<li><%= link_to "Déconnexion", signout_path, :method => :delete %></li>
 		   <% else %>
-		   	<li><%= link_to "Sidentifier", signin_path %></li>
+		   	<li><%= link_to "S'identifier", signin_path %></li>
 		   <% end %>
 		</ul>
 		

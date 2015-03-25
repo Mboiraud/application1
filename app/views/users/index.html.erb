@@ -7,3 +7,45 @@
 </ul>
 
 <%= will_paginate %>
+
+<% current_user %>
+<h1>Mes demandes envoyées</h1>
+<ul>  
+  <% for friendship in current_user.friendships.where(:status => "pending") %>  
+  <li>  
+    <%= h render friendship.friend %>
+    (<%= link_to "supprimer la demande", friendship, :method => :delete %>)   
+  </li>  
+  <% end %> 
+</ul> 
+<h1>Mes demandes reçues</h1>
+<ul>  
+  <% for friendship in current_user.inverse_friendships.where(:status => "pending") %>  
+  <li>  
+    <%= h render friendship.user %>
+    	<%= form_for(friendship) do |f| %>
+  		<div><%= f.hidden_field :status, :value => "accepted" %></div>
+  		<div class="actions"><%= f.submit "accepter" %></div>
+		<% end %>   
+  </li>  
+  <% end %> 
+</ul>
+<h1>Mes amis ajoutés</h1>
+<ul>  
+  <% for friendship in current_user.friendships.where(:status => "accepted") %>  
+  <li>  
+    <%= h render friendship.friend %>
+    (<%= link_to "supprimer des amis", friendship, :method => :delete %>)   
+  </li>  
+  <% end %> 
+</ul>  
+<h1>Mes amis qui m'ont ajoutés</h1>
+<ul>
+  <% for friendship in current_user.inverse_friendships.where(:status => "accepted") %>  
+  <li>  
+    <%= h render friendship.user %> 
+    (<%= link_to "supprimer des amis", friendship, :method => :delete %>)   
+  </li>  
+  <% end %>  
+</ul> 
+
