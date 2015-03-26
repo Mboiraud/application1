@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150324084911) do
+ActiveRecord::Schema.define(version: 20150326093422) do
 
   create_table "friendships", force: true do |t|
     t.integer  "user_id"
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 20150324084911) do
   end
 
   add_index "microposts", ["user_id"], name: "index_microposts_on_user_id"
+
+  create_table "recommendations", force: true do |t|
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recommendations", ["receiver_id"], name: "index_recommendations_on_receiver_id"
 
   create_table "users", force: true do |t|
     t.string   "nom"

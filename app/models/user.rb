@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
 												:class_name => "Friendship",
 												:dependent => :destroy
 	has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+	
+	has_many :recommendations, :foreign_key => "receiver_id",
+										:dependent => :destroy
+	has_many :sent_recommendations, :class_name => "Recommendation", :foreign_key => "sender_id"
 
 	validates :nom, 	:presence => true,
 							:length => { :maximum => 50 }
@@ -65,22 +69,6 @@ class User < ActiveRecord::Base
 		friendships.create!(:friend_id => friend.id, :status => "pending")
 	end
 	
-	
-#relationships pour suivre des utilisateurs
-=begin
-	def following?(followed)
-		relationships.find_by_followed_id(followed)
-	end
-	
-	def follow!(followed)
-		relationships.create!(:followed_id => followed.id)
-	end
-	
-	def unfollow!(followed)
-		relationships.find_by_followed_id(followed).destroy
-	end
-=end
-	
 	private
 	
 		def encrypt_password 
@@ -110,7 +98,4 @@ class User < ActiveRecord::Base
 			user = find_by_id(id)
 			(user && user.salt == cookie_salt) ? user : nil
 		end
-		
-		
-	
 end

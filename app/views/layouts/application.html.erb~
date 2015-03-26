@@ -4,7 +4,7 @@
 		<title><%= titre %></title>
 		<%= csrf_meta_tag %>
 		<%= render 'layouts/stylesheets' %>
-		<%= javascript_include_tag :all %>
+		<%= javascript_include_tag "application" %>
 	</head>
 	<body>
 		<div class="container">	
@@ -15,6 +15,7 @@
 			<% end %>
 				<%= yield %>
 			</section>
+			<%= render 'layouts/recommendation' %>
 			<%= render 'layouts/footer' %>
 			<%= debug(params) if Rails.env.development? %>
 		</div>

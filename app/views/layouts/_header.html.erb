@@ -2,19 +2,30 @@
 	<%= link_to logo, root_path %>
 	<nav class="round">
 		<ul>
-			<li><%= link_to "Accueil", root_path %></li>
-			<% if signed_in? %>
-				<li><%= link_to "Utilisateurs", users_path %></li>
-      		<li><%= link_to "Réglages", edit_user_path(current_user) %></li>
-      		<li><%= link_to "profil", current_user %></li>
-      	<% end %>
-			<li><%= link_to "Aide", help_path %></li>
-		   <% if signed_in? %>
-		   	<li><%= link_to "Déconnexion", signout_path, :method => :delete %></li>
-		   <% else %>
-		   	<li><%= link_to "S'identifier", signin_path %></li>
-		   <% end %>
-		</ul>
-		
+			<div class="button">Menu</div>
+				<div class="dropdown">
+					<% if signed_in? %>
+					<%= link_to "News", root_path %>
+					<%= link_to "Utilisateurs", users_path %>
+      			<%= link_to "Réglages", edit_user_path(current_user) %>
+      			<%= link_to "profil", current_user %>
+      			<% end %>
+					<%= link_to "Aide", help_path %>
+					<% if signed_in? %>
+		   		<%= link_to "Déconnexion", signout_path, :method => :delete %>
+		   		<% else %>
+		   		<%= link_to "S'identifier", signin_path %>
+		   		<% end %>
+				</div>
+		</ul>	
 	</nav>
 </header>
+
+<script>
+$(".button").click(function(){
+   
+    $(".dropdown").slideToggle();
+    
+});
+</script>
+

@@ -10,4 +10,10 @@ FactoryGirl.define do
 		micropost.content "Foo bar"
 		micropost.association :user
 	end
+	
+	factory :recommendation do |recommendation|
+		recommendation.content "Foo barbar"
+		recommendation.association :sender
+		recommendation.association :receiver
+	end
 end

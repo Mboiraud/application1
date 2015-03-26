@@ -294,34 +294,41 @@ RSpec.describe User, :type => :model do
  			expect(@friend).not_to be_pendingfriend(@friend, @user)
  		end
  	end
-end
-#relationships pour suivre des utilisateurs
-=begin  		
- 		
- 		it "devait inclure l'utilisateur suivi dans la liste following" do
- 			@user.follow!(@followed)
- 			expect(@user.following).to include(@followed)
+ 	
+ 	describe "recommendations" do
+ 	
+ 		before(:each) do
+ 			@man = User.create!(@attr)
+ 			@friend = FactoryGirl.create(:user)
+ 			@man.friendships.create(:friend_id => @friend.id, :status => "accepted")
+ 			@reco1 = FactoryGirl.create(:recommendation , :sender => @man, :receiver => @friend, :created_at => 1.day.ago)
+ 			@reco2 = FactoryGirl.create(:recommendation , :sender => @man, :receiver => @friend, :created_at => 1.hour.ago)
  		end
  		
- 		
- 		it "devrait arrêter de suivre un utilisateur" do
- 			@user.follow!(@followed)
- 			@user.unfollow!(@followed)
- 			expect(@user).not_to be_following(@followed)
+ 		it "devrait avoir un attribut recommendations ou sent_recommendation" do
+ 			expect(@man).to respond_to(:sent_recommendations)
+ 			expect(@friend).to respond_to(:recommendations)
  		end
  		
- 		it "devrait avoir une méthode reverse_relationships" do
- 			expect(@user).to respond_to(:reverse_relationships)
+ 		it "devrait inclure la recommendation chez les utilisateurs" do
+ 			expect(@man.sent_recommendations.include?(@reco1)).to be_truthy
+ 			expect(@friend.recommendations.include?(@reco1)).to be_truthy
  		end
  		
- 		it "devrait avoir une méthode followers" do
- 			expect(@user).to respond_to(:followers)
+ 		it "devrait avoir les bonnes recommendations dans le bon ordre" do
+ 			expect(@friend.recommendations).to eq([@reco2, @reco1])
  		end
  		
- 		it "devrait inclure le lecteur dans le tableau des lecteurs" do
- 			@user.follow!(@followed)
- 			expect(@followed.followers).to include(@user)
+ 		it "devrait détruire les recommendations" do
+ 			@friend.destroy
+ 			[@reco1, @reco2].each do |micropost|
+ 				expect(Recommendation.find_by_id(micropost.id)).to be_nil
+ 			end
+ 		end
+ 		
+ 		it "devrait créer une recommendation" do
+ 			
  		end
  	end
-=end	
+end
 

@@ -17,7 +17,7 @@ RSpec.describe Micropost, :type => :model do
 		@user = FactoryGirl.create(:user)
  		@attr = { :content => "value for content"}
  	end
- 	
+=begin  	
  	it "devrait créer une nouvelle instance avec les attributs valides" do
  		@user.microposts.create!(@attr)
  	end

@@ -9,7 +9,7 @@ RSpec.describe "Microposts", :type => :feature do
 		fill_in 'Mot de passe', with: user.password
 		click_button "S'identifier"
 	end
-	
+=begin 	
 	describe "création" do
 	
 		describe "échec" do
@@ -34,4 +34,5 @@ RSpec.describe "Microposts", :type => :feature do
 			end
 		end
 	end
+=end
 end

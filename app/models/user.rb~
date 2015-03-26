@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
 												:class_name => "Friendship",
 												:dependent => :destroy
 	has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+	
+	has_many :recommendations, :foreign_key => "receiver_id",
+										:dependent => :destroy
+	has_many :received_recommendations, :foreign_key => "sender_id"
 
 	validates :nom, 	:presence => true,
 							:length => { :maximum => 50 }
@@ -57,33 +61,13 @@ class User < ActiveRecord::Base
 		user.friendships.where(:friend_id => friend.id).where(:status => "accepted").first or friend.friendships.where(:friend_id => user.id).where(:status => "accepted").first
 	end
 	
-	def sendpendingfriend?(user, friend)
+	def pendingfriend?(user, friend)
 		user.friendships.where(:friend_id => friend.id).where(:status => "pending").first 
-	end
-	
-	def receivedpendingfriend?(user, friend)
-		friend.friendships.where(:friend_id => user.id).where(:status => "pending").first
 	end
 	
 	def request!(friend)
 		friendships.create!(:friend_id => friend.id, :status => "pending")
 	end
-	
-	
-#relationships pour suivre des utilisateurs
-=begin
-	def following?(followed)
-		relationships.find_by_followed_id(followed)
-	end
-	
-	def follow!(followed)
-		relationships.create!(:followed_id => followed.id)
-	end
-	
-	def unfollow!(followed)
-		relationships.find_by_followed_id(followed).destroy
-	end
-=end
 	
 	private
 	
@@ -114,7 +98,4 @@ class User < ActiveRecord::Base
 			user = find_by_id(id)
 			(user && user.salt == cookie_salt) ? user : nil
 		end
-		
-		
-	
 end

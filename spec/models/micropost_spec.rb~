@@ -52,7 +52,8 @@ RSpec.describe Micropost, :type => :model do
  			expect(@user.microposts.build(:content => "a" * 141)).not_to be_valid
  		end
  	end
- 	
+#relationships pour suivre des utilisateurs
+=begin 	
 	describe "from_users_followed_by" do
 
     	before(:each) do
@@ -82,4 +83,5 @@ RSpec.describe Micropost, :type => :model do
       expect(Micropost.from_users_followed_by(@user)).not_to include(@third_post)
     	end
   	end
+=end
 end

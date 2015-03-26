@@ -14,6 +14,7 @@
 				<div class="flash <%= key %>"><%= value %></div>
 			<% end %>
 				<%= yield %>
+			<%= render 'layouts/recommendation' %>
 			</section>
 			<%= render 'layouts/footer' %>
 			<%= debug(params) if Rails.env.development? %>

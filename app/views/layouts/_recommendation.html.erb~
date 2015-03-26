@@ -1,0 +1,5 @@
+<% if signed_in? %>
+	<recommendation_button>
+		<%= link_to "Faire une recommendation", new_recommendation, :class => "signup_button round" %>
+	</recommendation_button>
+<% end %>
