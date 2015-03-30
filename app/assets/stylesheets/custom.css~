@@ -1,7 +1,19 @@
+/* ajout B49 pour les text area */
+.field3 textarea{
+	height: 30px;
+}
+
+.nonmerci a{
+	text-align: right;
+	color: #1d3e5f;
+}
+/* fin ajout B49 */
+
+
 /* test */
 .dropdown{
     background:#1d3e5f;
-    display:block;
+    display:none;
 	margin-bottom: -100%;
 	position: relative;
 	z-index:1;

@@ -1,0 +1,21 @@
+<tr>
+ 	<td class="recommendation">
+ 	   <span class="category">
+      <%= recommendation.category %>:
+    	</span> 		
+ 	   <span class="sender">
+      <%= recommendation.sender.nom %> vous recommande 
+    	</span>
+    	<span class="item">
+      <%= recommendation.item %> 
+    	</span><br>
+    	<span class="content"><%= recommendation.content %></span><br>
+    	<span class="timestamp">
+      Recommandé il y a <%= time_ago_in_words(recommendation.created_at) %>.
+    	</span><br>
+    	<span class="dejavu"><%= link_to "Déjà vu", "#" %></span>
+    	<span class="todolist"><%= link_to "To Do List", "#" %></span>
+    	<span class="nonlerci"><%= link_to "Non merci", recommendation, :method => :delete,
+                                     data: { :confirm => "Etes-vous certain ?" } %></span>
+  	</td>
+</tr>

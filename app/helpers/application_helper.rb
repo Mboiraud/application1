@@ -2,7 +2,7 @@ module ApplicationHelper
 
 	#Retourner un titre basé sur la page
 	def titre
-		base_titre = "Application de Brasco"
+		base_titre = "Keepitup"
 		if @titre.nil?
 			base_titre
 		else

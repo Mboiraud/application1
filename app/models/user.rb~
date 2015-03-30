@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 	
 	has_many :recommendations, :foreign_key => "receiver_id",
 										:dependent => :destroy
-	has_many :received_recommendations, :foreign_key => "sender_id"
+	has_many :sent_recommendations, :class_name => "Recommendation", :foreign_key => "sender_id"
 
 	validates :nom, 	:presence => true,
 							:length => { :maximum => 50 }
@@ -53,9 +53,9 @@ class User < ActiveRecord::Base
 		return user if user.has_password?(submitted_password)
 	end
 	
-	def feed
-		Micropost.where("user_id = ?", id)
-	end
+#	def feed
+#		Recommendation.where("receiver_id = ?", id)
+#	end
 
 	def friend?(user, friend)
 		user.friendships.where(:friend_id => friend.id).where(:status => "accepted").first or friend.friendships.where(:friend_id => user.id).where(:status => "accepted").first
@@ -67,6 +67,11 @@ class User < ActiveRecord::Base
 	
 	def request!(friend)
 		friendships.create!(:friend_id => friend.id, :status => "pending")
+	end
+	
+	def allfriends
+		list = friendships.where( :status => "accepted" ).map(&:friend_id)
+		list << inverse_friendships.where( :status => "accepted" ).map(&:user_id)
 	end
 	
 	private

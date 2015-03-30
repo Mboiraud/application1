@@ -15,5 +15,7 @@ FactoryGirl.define do
 		recommendation.content "Foo barbar"
 		recommendation.association :sender
 		recommendation.association :receiver
+		recommendation.category "film"
+		recommendation.item "titre de film"
 	end
 end

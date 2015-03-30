@@ -29,13 +29,13 @@ render_views
 			expect(response.body).to have_selector("h1>img[class='gravatar'][width='50']")
 		end
 		
-		it "devrait afficher les micro-messages de l'utilisateur" do
-			mp1 = FactoryGirl.create(:micropost, :user => @user, :content => "foo bar")
-			mp2 = FactoryGirl.create(:micropost, :user => @user, :content => "Baz quux")
-			get :show, :id => @user
-			expect(response.body).to have_selector("span[class = 'content']", :text => mp1.content)
-			expect(response.body).to have_selector("span[class = 'content']", :text => mp2.content)
-		end
+#		it "devrait afficher les micro-messages de l'utilisateur" do
+#			mp1 = FactoryGirl.create(:micropost, :user => @user, :content => "foo bar")
+#			mp2 = FactoryGirl.create(:micropost, :user => @user, :content => "Baz quux")
+#			get :show, :id => @user
+#			expect(response.body).to have_selector("span[class = 'content']", :text => mp1.content)
+#			expect(response.body).to have_selector("span[class = 'content']", :text => mp2.content)
+#		end
 	end
 
 	describe "GET 'new'" do
@@ -46,7 +46,7 @@ render_views
 		
 		it "devrait avoir le bon titre" do
 			get 'new'
-			expect(response.body).to have_title('Application de Brasco | Inscription')
+			expect(response.body).to have_title('Keepitup | Inscription')
 		end
 	end
 	
@@ -64,7 +64,7 @@ render_views
 			
 			it "devrait avoir le bon titre" do
 				post :create, :user => @attr
-				expect(response.body).to have_title('Application de Brasco | Inscription')
+				expect(response.body).to have_title('Keepitup | Inscription')
 			end
 			
 			it "devrait rendre la page 'new'" do
@@ -114,7 +114,7 @@ render_views
 		
 		it "devrait avoir le bon titre" do
 			get :edit, :id => @user
-			expect(response.body).to have_title('Application de Brasco | Edition profil')
+			expect(response.body).to have_title('Keepitup | Edition profil')
 		end
 		
 		it "devrait avoir un lien pout changer l'image Gravatar" do
@@ -145,7 +145,7 @@ render_views
 			
 			it "devrait avoir le bon titre" do
 				put :update, :id => @user, :user => @attr
-				expect(response.body).to have_title("Application de Brasco | Edition profil")
+				expect(response.body).to have_title("Keepitup | Edition profil")
 			end
 		end
 		
@@ -240,7 +240,7 @@ render_views
 
 			it "devrait avoir le bon titre" do
 		     	get :index
-		     	expect(response.body).to have_title("Application de Brasco | Tous les utilisateurs")
+		     	expect(response.body).to have_title("Keepitup | Tous les utilisateurs")
 			end
 
 			it "devrait avoir un élément pour chaque utilisateur" do

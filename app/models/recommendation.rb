@@ -8,6 +8,8 @@
 #  content     :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  category    :string(255)
+#  item        :string(255)
 #
 
 class Recommendation < ActiveRecord::Base
@@ -15,9 +17,11 @@ class Recommendation < ActiveRecord::Base
 	belongs_to :receiver, :class_name => "User", :foreign_key => "receiver_id"
 	belongs_to :sender, :class_name => "User", :foreign_key => "sender_id"
 	
-	validates :content, :presence => true, :length => { :maximum => 200 }
+	validates :content, :length => { :maximum => 200 }
 	validates :sender, :presence => true
 	validates :receiver, :presence => true
+	validates :category, :presence => true, inclusion: { in: %w(film musique)}
+	validates :item, :presence => true
 	validate :must_be_friends
 	
 	default_scope { order('recommendations.created_at DESC') }

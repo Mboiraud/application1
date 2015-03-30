@@ -6,11 +6,6 @@
 				<%= @user.nom %>
 			</h1>
 			<%= render 'befriend_form' if signed_in? %>
-			<% unless @user.microposts.empty? %>
-				<table class="microposts" summary="Micro-messages de l'utilisateur">
-					<%= render @microposts %>
-				</table>
-			<% end %>
 		</td>
 		<td class="sidebar round">
 			<strong>Nom</strong> <%= @user.nom %><br />

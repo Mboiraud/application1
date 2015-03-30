@@ -1,0 +1,6 @@
+<% unless current_user.recommendations.empty? %>
+        <table class="recommendation" summary="Recommendations de l'utilisateur">
+          <%= render @recommendations %>
+        </table>
+        <%#<%= will_paginate @recommendations %>
+<% end %>

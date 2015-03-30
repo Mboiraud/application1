@@ -53,9 +53,9 @@ class User < ActiveRecord::Base
 		return user if user.has_password?(submitted_password)
 	end
 	
-	def feed
-		Micropost.where("user_id = ?", id)
-	end
+#	def feed
+#		Recommendation.where("receiver_id = ?", id)
+#	end
 
 	def friend?(user, friend)
 		user.friendships.where(:friend_id => friend.id).where(:status => "accepted").first or friend.friendships.where(:friend_id => user.id).where(:status => "accepted").first
@@ -67,6 +67,11 @@ class User < ActiveRecord::Base
 	
 	def request!(friend)
 		friendships.create!(:friend_id => friend.id, :status => "pending")
+	end
+	
+	def allfriends
+		list = friendships.where( :status => "accepted" ).map(&:friend_id)
+		list + inverse_friendships.where( :status => "accepted" ).map(&:user_id)
 	end
 	
 	private

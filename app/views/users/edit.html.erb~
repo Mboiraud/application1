@@ -15,7 +15,7 @@
     <%= f.password_field :password %>
   </div>
   <div class="field">
-    <%= f.label :password_confirmation, "Confirmation mot de passe", "Confirmation" %><br />
+    <%= f.label :password_confirmation,  "Confirmation" %><br />
     <%= f.password_field :password_confirmation %>
   </div>
   <div class="actions">
@@ -23,7 +23,7 @@
   </div>
 <% end %>
 
-<div>
-  <%= gravatar_for @user %>
-  <a href="http://gravatar.com/emails">changer</a>
-</div>
+	<div>
+  		<%= gravatar_for @user %>
+  		<a href="http://gravatar.com/emails">changer</a>
+	</div>

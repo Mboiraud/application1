@@ -12,7 +12,7 @@ render_views
 		
 		it "devrait avoir le bon titre" do
 			get :new
-			expect(response.body).to have_title("Simple App du Tutoriel Ruby on Rails | S'identifier")
+			expect(response.body).to have_title("Keepitup | S'identifier")
 		end
 	end
 	
@@ -31,7 +31,7 @@ render_views
 			
 			it "devrait avoir le bon titre" do
 				post :create, :session => @attr
-				expect(response.body).to have_title("Simple App du Tutoriel Ruby on Rails | S'identifier")
+				expect(response.body).to have_title("Keepitup | S'identifier")
 			end
 			
 			it "devrait avoir un message flash.now" do

@@ -12,7 +12,7 @@ render_views
 		
 		it "devrait avoir le bon titre" do
 			get :new
-			expect(response.body).to have_title("Application de Brasco | S'identifier")
+			expect(response.body).to have_title("Keepitup | S'identifier")
 		end
 	end
 	
@@ -31,7 +31,7 @@ render_views
 			
 			it "devrait avoir le bon titre" do
 				post :create, :session => @attr
-				expect(response.body).to have_title("Application de Brasco | S'identifier")
+				expect(response.body).to have_title("Keepitup | S'identifier")
 			end
 			
 			it "devrait avoir un message flash.now" do
@@ -53,9 +53,9 @@ render_views
 				expect(controller).to be_signed_in
 			end
 			
-			it "devrait rediriger vers la page d'affichage de l'utilisateur" do
+			it "devrait rediriger vers la page d'acceuil" do
 				post :create, :session => @attr
-				expect(response).to redirect_to(user_path(@user))
+				expect(response).to redirect_to(root_path)
 			end
 		end
 	end

@@ -157,7 +157,8 @@ RSpec.describe User, :type => :model do
       	expect(@user).to be_admin
     	end
   	end
-  	
+ 
+=begin  	
   	describe "Les associations au micro-message" do
  	
  		before(:each) do
@@ -204,9 +205,9 @@ RSpec.describe User, :type => :model do
  		describe "Etat de l'alimentation" do
  		
  			it "devrait avoir une méthode 'feed'" do
- 				expect(@user).to respond_to(:feed)
- 			end
- 			
+				expect(@user).to respond_to(:feed)
+			end
+		
  			it "devrait inclure les micro-messages de l'utilisateur" do
  				expect(@user.feed.include?(@mp1)).to be_truthy
  				expect(@user.feed.include?(@mp2)).to be_truthy
@@ -219,17 +220,17 @@ RSpec.describe User, :type => :model do
 			end
  			
 #relationships pour suivre des utilisateurs
-=begin 			
+ 			
       	it "devrait inclure les micro-messages des utilisateurs suivis" do
         		followed = FactoryGirl.create(:user, :email => "user2@gmail.com")
         		mp3 = FactoryGirl.create(:micropost, :user => followed)
         		@user.follow!(followed)
         		expect(@user.feed).to include(mp3)
       	end
-=end
+
 		end
  	end
-	
+=end	
  	describe "friendships" do
  		
  		before(:each) do
@@ -324,10 +325,6 @@ RSpec.describe User, :type => :model do
  			[@reco1, @reco2].each do |micropost|
  				expect(Recommendation.find_by_id(micropost.id)).to be_nil
  			end
- 		end
- 		
- 		it "devrait créer une recommendation" do
- 			
  		end
  	end
 end

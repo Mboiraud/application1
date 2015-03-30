@@ -53,9 +53,9 @@ RSpec.describe "Users", :type => :feature do
 				fill_in 'Email', with: @user.email
 				fill_in 'Mot de passe', with: @user.password
 				click_button "S'identifier"
-				expect(page).to have_title("Application de Brasco | #{@user.nom}")
+				expect(page).to have_title("Keepitup | Accueil")
 				click_link "Déconnexion"
-				expect(page).to have_title("Application de Brasco | Accueil")		
+				expect(page).to have_title("Keepitup | Accueil")		
 			end
 		end
 	end

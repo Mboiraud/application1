@@ -8,6 +8,8 @@
 #  content     :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  category    :string(255)
+#  item        :string(255)
 #
 
 require 'rails_helper'
@@ -22,13 +24,13 @@ RSpec.describe Recommendation, :type => :model do
 	end
 	
 	it "dervait créer une instance recommendation avec les bons attributs" do
-		Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content)
+		Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "film", :item => "un titre de film")
 	end
 	
 	describe "associations avec l'utilisateur" do
 	
 		before(:each) do
-			@recommendation = Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content)
+			@recommendation = Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "film", :item => "un titre de film")
 		end
 		
 		it "devrait avoir un attribut :sender" do
@@ -38,6 +40,10 @@ RSpec.describe Recommendation, :type => :model do
 		it "devrait avoir un attribut :receiver" do
 			expect(@recommendation).to respond_to(:receiver)
 		end	
+		
+		it "devrait avoir un attribut :category" do
+			expect(@recommendation).to respond_to(:category)
+		end
 		
 		it "devrait avoir les bons utilisateurs associés" do
 			expect(@recommendation.sender_id).to eq(@user.id)
@@ -50,23 +56,35 @@ RSpec.describe Recommendation, :type => :model do
 	describe "validations" do
 	
 		it "requiert un sender" do
-			expect(Recommendation.new(:sender_id => nil, :receiver_id => @friend.id, :content => @content)).not_to be_valid
+			expect(Recommendation.new(:sender_id => nil, :receiver_id => @friend.id, :content => @content, :category => "film", :item => "un titre de film")).not_to be_valid
 		end
 		
 		it "requiert un sender qui existe" do
-			expect(Recommendation.new(:sender_id => 3, :receiver_id => @friend.id, :content => @content)).not_to be_valid
+			expect(Recommendation.new(:sender_id => 3, :receiver_id => @friend.id, :content => @content, :category => "film", :item => "un titre de film")).not_to be_valid
 		end
 		
 		it "requiert un receiver" do
-			expect(Recommendation.new(:sender_id => @user.id, :content => @content)).not_to be_valid
+			expect(Recommendation.new(:sender_id => @user.id, :content => @content, :category => "film", :item => "un titre de film")).not_to be_valid
+		end
+		
+		it "requiert un receiver qui existe" do
+			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => 3, :content => @content, :category => "film", :item => "un titre de film")).not_to be_valid
 		end
 		
 		it "requiert un contenu" do
-			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => @friend.id)).not_to be_valid
+			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => @friend.id, :category => "film", :item => "un titre de film")).not_to be_valid
 		end
 		
 		it "devrait rejeter un contenu trop long" do
-			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => @friend.id, :content => "a" * 201)).not_to be_valid
+			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => @friend.id, :content => "a" * 201, :category => "film", :item => "un titre de film")).not_to be_valid
+		end
+		
+		it "requiert une category valide" do
+			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => @friend.id, :content => "a", :category => "mauvaise cat", :item => "un titre de film")).not_to be_valid
+		end
+		
+		it "requiert un item" do
+			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => @friend.id, :content => "a", :category => "mauvaise cat")).not_to be_valid
 		end
 			
 		it "devrait refuser si les deux ne sont pas amis" do

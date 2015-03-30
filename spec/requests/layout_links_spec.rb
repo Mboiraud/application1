@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "LayoutLinks", :type => :feature do
 
-	let(:basetitre) {'Application de Brasco | '}
+	let(:basetitre) {'Keepitup | '}
 
 	it "devrait trouver une page Accueil à 'home'" do
       	visit 'home'
@@ -54,6 +54,11 @@ describe "LayoutLinks", :type => :feature do
 		it "devrait avoir un lien vers le profil" do
 			visit root_path
 			expect(page).to have_selector("a[href= '#{user_path(@user)}']", :text => "profil")
+		end
+		
+		it "devrait avoir un bouton 'recommander' foncitonnel" do
+			visit '/recommendations/new'
+			expect(page).to have_title(basetitre + 'Faire une recommandation')
 		end
 	end
 end
