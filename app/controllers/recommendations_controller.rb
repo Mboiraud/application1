@@ -10,6 +10,7 @@ class RecommendationsController < ApplicationController
 		@recommendation = current_user.sent_recommendations.build(recommendation_params)
 		#@recommendation = Recommendation.new(recommendation_params)
 		if @recommendation.save
+			@recommendation.changerequest
 			flash[:sucess] = "Recommendation envoyée"
 			redirect_to root_path
 		else
@@ -25,6 +26,7 @@ class RecommendationsController < ApplicationController
 	end
 	
 	def recommendation_params
-		params.require(:recommendation).permit(:content, :sender_id, :receiver_id, :category, :item)
+		params.require(:recommendation).permit(:content, :sender_id, :receiver_id, :category, :item, :fromrequest_id)
 	end
 end
+

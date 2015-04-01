@@ -327,5 +327,37 @@ RSpec.describe User, :type => :model do
  			end
  		end
  	end
+ 	
+ 	describe "requests" do
+ 	
+ 		before(:each) do
+ 			@man = User.create!(@attr)
+ 			@friend = FactoryGirl.create(:user)
+ 			@man.friendships.create(:friend_id => @friend.id, :status => "accepted")
+ 			@req1 = FactoryGirl.create(:request , :sender => @man, :receiver => @friend, :created_at => 1.day.ago)
+ 			@req2 = FactoryGirl.create(:request , :sender => @man, :receiver => @friend, :created_at => 1.hour.ago)
+ 		end
+ 		
+ 		it "devrait avoir un attribut requests ou sent_requests" do
+ 			expect(@man).to respond_to(:sent_requests)
+ 			expect(@friend).to respond_to(:requests)
+ 		end
+ 		
+ 		it "devrait inclure la request chez les utilisateurs" do
+ 			expect(@man.sent_requests.include?(@req1)).to be_truthy
+ 			expect(@friend.requests.include?(@req2)).to be_truthy
+ 		end
+ 		
+ 		it "devrait avoir les bonnes requests dans le bon ordre" do
+ 			expect(@friend.requests).to eq([@req2, @req1])
+ 		end
+ 		
+ 		it "devrait détruire les requests" do
+ 			@friend.destroy
+ 			[@req1, @req2].each do |micropost|
+ 				expect(Request.find_by_id(micropost.id)).to be_nil
+ 			end
+ 		end
+ 	end
 end
 

@@ -6,7 +6,7 @@ describe PagesController do
 	render_views
 	
 	before(:each) do 
-		@basetitre = "Application de Brasco"
+		@basetitre = "Keepitup"
 	end
 
 	describe "GET 'home'" do

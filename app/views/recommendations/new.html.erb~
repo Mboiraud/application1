@@ -2,23 +2,24 @@
   	<%= render 'shared/error_messages', :object => f.object %>
   	<% list = current_user.allfriends + [current_user.id] %>
   	<% categories = ["film", "musique"] %>
-  	<div class="field">
+  	<div class="field1">
   		<%= f.label "destinataire" %>
-    	<%= f.collection_select :receiver_id, User.where(id: list), :id, :nom %>
+    	<%= f.collection_select :receiver_id, User.where(id: list), :id, :nom, {:selected => params[:receiver_id]} %>
   	</div>
-  	<div class="field">
+  	<div class="field2">
   		<%= f.label "Catégorie" %>
-    	<%= f.select :category, categories %>
+    	<%= f.select :category, categories, {:selected => params[:category]} %>
   	</div>
-  	<div class="field">
+  	<div class="field3">
   		<%= f.label "Objet" %><br>
     	<%= f.text_area :item %>
   	</div>
-  	<div class="field">
+  	<div class="field4">
   		<%= f.label "message" %><br>
     	<%= f.text_area :content %>
   	</div>
   	<div class="actions">
+  		<%= f.hidden_field :fromrequest_id %>
     	<%= f.submit "Soumettre" %>
   	</div>
 <% end %>

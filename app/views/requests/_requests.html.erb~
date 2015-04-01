@@ -1,0 +1,17 @@
+<tr>
+ 	<td class="request">
+ 	   <span class="category">
+      <%= request.category %>:
+    	</span> 		
+ 	   <span class="sender">
+      <%= request.sender.nom %> vous demande 
+    	</span>
+    	<span class="content"><%= request.content %></span><br>
+    	<span class="timestamp">
+      Demandé il y a <%= time_ago_in_words(request.created_at) %>.
+    	</span><br>
+    	<span class="Recommander"><%= link_to "To Do List", "#" %></span>
+    	<span class="Pas d'idée"><%= link_to "Non merci", recommendation, :method => :delete,
+                                     data: { :confirm => "Etes-vous certain ?" } %></span>
+  	</td>
+</tr>

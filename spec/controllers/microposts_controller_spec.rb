@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe MicropostsController, :type => :controller do
 render_views
-
+=begin
 	describe "contrôle d'accès" do
 	
 		it "devrait refuser l'accès pour 'create'" do
@@ -89,5 +89,6 @@ render_views
 			end
 		end
 	end
+=end
 end
 

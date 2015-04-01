@@ -69,16 +69,4 @@ describe PagesController do
       	expect(response.body).to have_title("#{@basetitre} | Accueil")
 		end	
 	end
-	
-	describe "GET 'help'" do
-		it "devrait réussir" do
-      	get 'help'
-      	expect(response).to be_success
-		end
-		
-		it "devrait avoir le bon titre" do
-      	get 'help'
-      	expect(response.body).to have_title("#{@basetitre} | Aide")
-		end	
-	end
 end

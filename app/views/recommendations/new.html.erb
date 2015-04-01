@@ -4,11 +4,11 @@
   	<% categories = ["film", "musique"] %>
   	<div class="field1">
   		<%= f.label "destinataire" %>
-    	<%= f.collection_select :receiver_id, User.where(id: list), :id, :nom %>
+    	<%= f.collection_select :receiver_id, User.where(id: list), :id, :nom, {:selected => params[:receiver_id]} %>
   	</div>
   	<div class="field2">
   		<%= f.label "Catégorie" %>
-    	<%= f.select :category, categories %>
+    	<%= f.select :category, categories, {:selected => params[:category]} %>
   	</div>
   	<div class="field3">
   		<%= f.label "Objet" %><br>
@@ -19,6 +19,7 @@
     	<%= f.text_area :content %>
   	</div>
   	<div class="actions">
+  		<%= f.hidden_field :fromrequest_id, :value => params[:fromrequest_id] %>
     	<%= f.submit "Soumettre" %>
   	</div>
 <% end %>

@@ -1,0 +1,6 @@
+<% if signed_in? %>
+	<div class = "importantbuttons">
+		<%= link_to "Demander", new_request_path, :class => "request button1 round" %>
+		<%= link_to "Recommander", new_recommendation_path, :class => "recomm button1 round" %>
+	</div>
+<% end %>

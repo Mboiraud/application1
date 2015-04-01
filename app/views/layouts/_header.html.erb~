@@ -4,8 +4,8 @@
 		<ul>
 			<div class="button">Menu</div>
 				<div class="dropdown">
-    				<%= link_to "News", root_path %>
 					<% if signed_in? %>
+					<%= link_to "News", root_path %>
 					<%= link_to "Utilisateurs", users_path %>
       			<%= link_to "Réglages", edit_user_path(current_user) %>
       			<%= link_to "profil", current_user %>

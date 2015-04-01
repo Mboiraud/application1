@@ -68,7 +68,7 @@ render_views
 				@user = FactoryGirl.create(:user)
 				@wrong_user = FactoryGirl.create(:user, :email => "wronguser@gmail.com")
 				test_sign_in(@wrong_user)
-				@miscropost = FactoryGirl.create(:micropost, :user => @user)
+				@micropost = FactoryGirl.create(:micropost, :user => @user)
 			end
 			
 			it "devrait refuser la suppression du message" do

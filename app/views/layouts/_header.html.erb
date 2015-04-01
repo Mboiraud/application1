@@ -10,7 +10,6 @@
       			<%= link_to "Réglages", edit_user_path(current_user) %>
       			<%= link_to "profil", current_user %>
       			<% end %>
-					<%= link_to "Aide", help_path %>
 					<% if signed_in? %>
 		   		<%= link_to "Déconnexion", signout_path, :method => :delete %>
 		   		<% else %>

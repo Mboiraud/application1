@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   def show
   	@user = User.find(params[:id])
   	#@microposts = @user.microposts.paginate(:page => params[:page])
-  	@recommendations = @user.recommendations.paginate(:page => params[:page])
+  	#@recommendations = @user.recommendations.paginate(:page => params[:page])
   	@titre = @user.nom
   end
   
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   	@user = User.new(user_params)
   	if @user.save
   		sign_in @user
-  		flash[:success] = "Bienvenue dans l'Application de Brasco!"
+  		flash[:success] = "Bienvenue sur Keepitup!"
   		redirect_to @user
   	else
   		@titre = "Inscription"

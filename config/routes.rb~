@@ -24,9 +24,8 @@ SampleApp::Application.routes.draw do
 
   	get '/contact', :to => 'pages#contact'
   	get '/about',   :to => 'pages#about'
-  	get '/help',    :to => 'pages#help'
   	get '/home',		:to => 'pages#home'
-  	#post "book/create"
+#  	get '/recommendation' :to => 'recommendation
 
   
   	root :to => 'pages#home'

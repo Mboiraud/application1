@@ -227,10 +227,10 @@ RSpec.describe User, :type => :model do
         		@user.follow!(followed)
         		expect(@user.feed).to include(mp3)
       	end
-=end
+
 		end
  	end
-	
+=end	
  	describe "friendships" do
  		
  		before(:each) do

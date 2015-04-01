@@ -16,8 +16,10 @@
   	<h1>Sample App</h1>
 
   	<p>
-    Page d'accueil de Keppitup</a>.
+    Page d'accueil de Keepitup</a>.
   	</p>
-
-  	<%= link_to "S'inscrire !", signup_path, :class => "signup_button round" %>
+	
+	<p class = "importantbuttons2">
+  	<%= link_to "S'inscrire !", signup_path %>
+  	</p>
 <% end %>

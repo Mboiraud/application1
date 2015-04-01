@@ -24,10 +24,17 @@ class User < ActiveRecord::Base
 												:dependent => :destroy
 	has_many :inverse_friends, :through => :inverse_friendships, :source => :user
 	
+	#recommendations
 	has_many :recommendations, :foreign_key => "receiver_id",
 										:dependent => :destroy
 	has_many :sent_recommendations, :class_name => "Recommendation", :foreign_key => "sender_id"
 
+	#requests
+	has_many :requests, :foreign_key => "receiver_id",
+										:dependent => :destroy
+	has_many :sent_requests, :class_name => "Request", :foreign_key => "sender_id"
+	
+		
 	validates :nom, 	:presence => true,
 							:length => { :maximum => 50 }
 							
@@ -53,9 +60,10 @@ class User < ActiveRecord::Base
 		return user if user.has_password?(submitted_password)
 	end
 	
-#	def feed
-#		Recommendation.where("receiver_id = ?", id)
-#	end
+	def feed2
+		feeditems = recommendations + requests#.where(:group => "new")
+		feeditems.sort_by(&:created_at).reverse
+	end
 
 	def friend?(user, friend)
 		user.friendships.where(:friend_id => friend.id).where(:status => "accepted").first or friend.friendships.where(:friend_id => user.id).where(:status => "accepted").first
@@ -71,7 +79,7 @@ class User < ActiveRecord::Base
 	
 	def allfriends
 		list = friendships.where( :status => "accepted" ).map(&:friend_id)
-		list << inverse_friendships.where( :status => "accepted" ).map(&:user_id)
+		list + inverse_friendships.where( :status => "accepted" ).map(&:user_id)
 	end
 	
 	private

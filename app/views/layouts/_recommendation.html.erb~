@@ -1,5 +1,6 @@
 <% if signed_in? %>
 	<recommendation_button>
-		<%= link_to "Faire une recommendation", new_recommendation_path, :class => "signup_button round" %>
+		<%= link_to "Faire une demande", "#", :class => "request button1 round" %>
+		<%= link_to "Faire une recommandation", new_recommendation_path, :class => "recomm button1 round" %>
 	</recommendation_button>
 <% end %>

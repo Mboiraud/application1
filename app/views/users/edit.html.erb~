@@ -1,29 +1,33 @@
-<h1>Edition du profil</h1>
-
+<nav class = "edit" >
+<ul>
+  	<%= gravatar_for @user %>
+  	<a href="http://gravatar.com/emails">changer</a>
+</ul>
 <%= form_for(@user) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
-  <div class="field">
-    <%= f.label :nom, "Nom" %><br />
-    <%= f.text_field :nom %>
-  </div>
-  <div class="field">
-    <%= f.label :email, "eMail" %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password, "Mot de passe" %><br />
-    <%= f.password_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation,  "Confirmation" %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
+  		<div class="field">
+	  		<%= f.label :nom, "Nom" %><br>
+	  		<%= f.label :email, "eMail" %><br>
+	  		<%= f.label :password, "Mot de passe" %><br>
+	  		<%= f.label :password_confirmation,  "Confirmation" %><br>
+	  	</div>
+	  	<div class="answer">
+	  		<%= f.text_field :nom %>
+	  		<%= f.text_field :email %>
+	  		<%= f.password_field :password %>
+	  		<%= f.password_field :password_confirmation %>
+	  	</div>
+		<div class="actions">
+			<%= f.submit "Update" %>
+	  	</div>
 <% end %>
+</nav>
+  
+  
+  
+  
+  
+  
 
-	<div>
-  		<%= gravatar_for @user %>
-  		<a href="http://gravatar.com/emails">changer</a>
-	</div>
+
+

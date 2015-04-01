@@ -1,0 +1,45 @@
+<tr>
+	<% if feed2_item.class == Request %>
+ 	<div class="request">
+ 	   <span class="category">
+      <%= feed2_item.category %>:
+    	</span> 		
+ 	   <span class="sender">
+      <%= feed2_item.sender.nom %> vous demande 
+    	</span><br>
+    	<span class="content"><%= feed2_item.content %></span><br>
+    	<span class="timestamp">
+      Demandé il y a <%= time_ago_in_words(feed2_item.created_at) %>.
+    	</span><br>
+    	<span><%= link_to "Recommander", new_recommendation_path({:receiver_id => feed2_item.sender.id, :category => feed2_item.category, :fromrequest_id => feed2_item.id }) %></span>
+    	<span><%= link_to "Pas d'idée", feed2_item, :method => :delete,
+                                     data: { :confirm => "Etes-vous certain ?" } %></span>
+  	</div>
+	<% elsif feed2_item.class == Recommendation %>
+ 	<div class="recommendation">
+ 		<%= image_tag("movie_clapper.jpg", :class => "recoimg") %>
+ 	   <span class="category">
+      <%= feed2_item.category %>
+    	</span> 		
+ 	   <span class="sender">
+      <%= feed2_item.sender.nom %>
+    	</span>
+    	<%= image_tag("profil.png", :class => "senderimg") %>
+    	<span class="item">
+      <%= feed2_item.item %> 
+    	</span>
+    	<span class="content"><%= feed2_item.content %></span>
+    	<span class="timestamp">
+      il y a <%= time_ago_in_words(feed2_item.created_at) %>.
+    	</span>
+    	<div class = "buttons" >
+    	<span class = "dejavu importantbuttons" ><%= link_to "Déjà vu", "#" %></span>
+    	<span class = "dejavu importantbuttons" ><%= link_to "To Do List", "#" %></span>
+    	<span class = "dejavu importantbuttons" ><%= link_to "Non merci", feed2_item, :method => :delete,
+                                     data: { :confirm => "Etes-vous certain ?" } %></span>
+      </div>
+  	</div>
+	<% end %>
+</tr>
+
+

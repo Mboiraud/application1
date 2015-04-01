@@ -18,11 +18,6 @@ describe "LayoutLinks", :type => :feature do
       	visit '/help'
       	expect(page).to have_title(basetitre + 'Aide')
 	end
-
-	it "devrait trouver une page A Propos à '/about'" do
-      	visit '/about'
-      	expect(page).to have_title(basetitre + 'À Propos')
-	end
 	
 	it "devrait trouver une page Inscription à '/signup'" do
       	visit '/signup'
@@ -58,7 +53,7 @@ describe "LayoutLinks", :type => :feature do
 		
 		it "devrait avoir un bouton 'recommander' foncitonnel" do
 			visit '/recommendations/new'
-			expect(page).to have_title(basetitre + 'Faire une recommendation')
+			expect(page).to have_title(basetitre + 'Faire une recommandation')
 		end
 	end
 end

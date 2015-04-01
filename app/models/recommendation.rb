@@ -2,14 +2,15 @@
 #
 # Table name: recommendations
 #
-#  id          :integer          not null, primary key
-#  sender_id   :integer
-#  receiver_id :integer
-#  content     :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  category    :string(255)
-#  item        :string(255)
+#  id             :integer          not null, primary key
+#  sender_id      :integer
+#  receiver_id    :integer
+#  content        :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  category       :string(255)
+#  item           :string(255)
+#  fromrequest_id :integer
 #
 
 class Recommendation < ActiveRecord::Base
@@ -23,6 +24,7 @@ class Recommendation < ActiveRecord::Base
 	validates :category, :presence => true, inclusion: { in: %w(film musique)}
 	validates :item, :presence => true
 	validate :must_be_friends
+	validate :must_be_valid_request
 	
 	default_scope { order('recommendations.created_at DESC') }
 	
@@ -32,4 +34,19 @@ class Recommendation < ActiveRecord::Base
 				errors.add(:base, 'vous devez être amis')
 			end
 		end
+		
+		def must_be_valid_request
+			return unless errors.blank?
+			if Request.find_by_id(fromrequest_id) == nil and fromrequest_id != nil
+				errors.add(:base, 'la requete nexiste pas')
+			end
+		end
+		
+	def changerequest
+		if self.fromrequest_id != nil
+			request = Request.find_by_id(fromrequest_id)
+			request.group = "old"
+			request.save!
+		end
+	end
 end
