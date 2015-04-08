@@ -6,6 +6,7 @@
 				<div class="dropdown">
 					<% if signed_in? %>
 					<%= link_to "News", root_path %>
+					<%= link_to "To do list", todolist_user_path(current_user, :category => "Film") %>
 					<%= link_to "Utilisateurs", users_path %>
       			<%= link_to "Réglages", edit_user_path(current_user) %>
       			<%= link_to "profil", current_user %>
@@ -20,11 +21,5 @@
 	</nav>
 </header>
 
-<script>
-$(".button").click(function(){
-   
-    $(".dropdown").slideToggle();
-    
-});
-</script>
+
 

@@ -1,7 +1,7 @@
 <%= form_for @recommendation do |f| %>
   	<%= render 'shared/error_messages', :object => f.object %>
   	<% list = current_user.allfriends + [current_user.id] %>
-  	<% categories = ["film", "musique"] %>
+  	<% categories = ["Film", "Musique", "Série", "Livre BD", "Bar restaurant", "Contenu web", "Evenement", "Jeux vidéo", "Lieux culturels", "autre"] %>
   	<div class="field1">
   		<%= f.label "destinataire" %>
     	<%= f.collection_select :receiver_id, User.where(id: list), :id, :nom, {:selected => params[:receiver_id]} %>
@@ -12,14 +12,16 @@
   	</div>
   	<div class="field3">
   		<%= f.label "Objet" %><br>
-    	<%= f.text_area :item %>
+    	<%= f.text_area :item, items, {:selected => params[:item]} %> 
   	</div>
   	<div class="field4">
   		<%= f.label "message" %><br>
     	<%= f.text_area :content %>
   	</div>
   	<div class="actions">
-  		<%= f.hidden_field :fromrequest_id %>
+  		<%= f.hidden_field :fromrequest_id, :value => params[:fromrequest_id] %>
+  		<%= f.hidden_field :group %>
     	<%= f.submit "Soumettre" %>
   	</div>
 <% end %>
+

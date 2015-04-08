@@ -4,9 +4,10 @@
   #get 'users/new'
 
 SampleApp::Application.routes.draw do
+	
 	resources :users do
   		member do
-  			get :following, :followers
+  			get :todolist
   		end
   	end
   
@@ -16,7 +17,7 @@ SampleApp::Application.routes.draw do
   	resources :sessions, :only => [:new, :create, :destroy]
   	resources :microposts, :only => [:create, :destroy]
   	resources :friendships, :only => [:create, :destroy, :update]
-  	resources :recommendations, :only => [:new, :create, :destroy]
+  	resources :recommendations, :only => [:new, :create, :destroy, :update]
   	resources :requests, :only => [:new, :create, :destroy]
   
   	get '/signup', :to => 'users#new'
@@ -26,7 +27,7 @@ SampleApp::Application.routes.draw do
   	get '/contact', :to => 'pages#contact'
   	get '/about',   :to => 'pages#about'
   	get '/home',		:to => 'pages#home'
-#  	get '/recommendation' :to => 'recommendation
+	#get '/todolist', :to => 'users#todolist'
 
   
   	root :to => 'pages#home'

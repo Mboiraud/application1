@@ -292,6 +292,44 @@ render_views
       	end
     	end
   	end
+  	
+  	describe "GET 'todolist'" do
+		
+		describe "pour un utilisateur non identifiés" do
+			
+			it "devrait refuser l'accès" do
+				@user = FactoryGirl.create(:user)
+        		get :todolist, :id => @user
+        		expect(response).to redirect_to(signin_path)
+        		expect(flash[:notice]).to be =~ /identifier/i
+			end
+		end
+		
+		describe "pour le mauvais utilisateur" do
+		
+			it "devrait renvoyer vers sa page de news" do
+				@user1 = FactoryGirl.create(:user)
+				@user2 = FactoryGirl.create(:user, :email => "user2@gmail.com")
+				test_sign_in(@user2)
+        		get :todolist, :id => @user1
+        		expect(response).to redirect_to(root_path)
+			end
+		end
+		
+		describe "pour le bon utilisateur" do
+		
+			before(:each) do
+				@user = FactoryGirl.create(:user)
+				test_sign_in(@user)
+			end
+			
+			it "devrait avoir le bon titre" do
+				get:todolist, :id => @user
+				expect(response.body).to have_title("Keepitup | To do list")
+			end
+		end
+	end
+end
 #relationships pour suivre des utilisateurs
 =begin  	
   	describe "Les pages de suivi" do
@@ -329,4 +367,3 @@ render_views
   		end
   	end
 =end		
-end

@@ -1,0 +1,23 @@
+ 	<div class="recommendation">
+ 		<%= image_tag("movie_clapper.jpg", :class => "recoimg") %>
+ 	   <span class="category">
+      <%#= feedtodo_item.category %>
+    	</span> 		
+ 	   <span class="sender">
+      <%= feedtodo_item.sender.nom %>
+    	</span>
+    	<%= image_tag("profil.png", :class => "senderimg") %>
+    	<span class="item">
+      <%= feedtodo_item.item %> 
+    	</span>
+    	<span class="content"><%= feedtodo_item.content %></span>
+    	<span class="timestamp">
+      <%= time_ago_in_words(feedtodo_item.created_at) %>.
+    	</span>
+    	<div class = "buttons" >
+    	<span class = "dejavu importantbuttons" ><%= link_to "Déjà vu", "#" %></span>
+    	<span class = "dejavu importantbuttons" ><%= link_to "To Do List", feedtodo_item, :method => :put %></span>
+    	<span class = "dejavu importantbuttons" ><%= link_to "Non merci", feedtodo_item, :method => :delete,
+                                     data: { :confirm => "Etes-vous certain ?" } %></span>
+      </div>
+  	</div>

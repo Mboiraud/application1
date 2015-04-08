@@ -17,6 +17,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'blueprint-rails'
 gem 'gravatar_image_tag'
 gem 'will_paginate', '~> 3.0.6'
+gem "paperclip", "~> 4.2"
 
 group :development do
 	gem 'rspec-rails', '3.0.1'

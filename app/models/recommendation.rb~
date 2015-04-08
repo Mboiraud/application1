@@ -11,6 +11,7 @@
 #  category       :string(255)
 #  item           :string(255)
 #  fromrequest_id :integer
+#  group          :string(255)
 #
 
 class Recommendation < ActiveRecord::Base
@@ -21,8 +22,9 @@ class Recommendation < ActiveRecord::Base
 	validates :content, :length => { :maximum => 200 }
 	validates :sender, :presence => true
 	validates :receiver, :presence => true
-	validates :category, :presence => true, inclusion: { in: %w(film musique)}
+	validates :category, :presence => true, inclusion: { in: ["Film", "Musique", "Série", "Livre BD", "Bar restaurant", "Contenu web", "Evenement", "Jeux vidéo", "Lieux culturels", "autre"]}
 	validates :item, :presence => true
+	validates :group, :presence => true, inclusion: { in: %w(new old)}
 	validate :must_be_friends
 	validate :must_be_valid_request
 	
@@ -42,11 +44,35 @@ class Recommendation < ActiveRecord::Base
 			end
 		end
 		
-	def self.changerequest
+	def changerequest
 		if self.fromrequest_id != nil
 			request = Request.find_by_id(fromrequest_id)
 			request.group = "old"
 			request.save!
+		end
+	end
+	
+	def goodpicture
+		if self.category == "Film"
+			goodpicture = "Film.jpg"
+		elsif self.category == "Musique"
+			goodpicture = "Musique.jpg"
+		elsif self.category == "Série"
+			goodpicture = "Série.jpg"
+		elsif self.category == "Livre BD"
+			goodpicture = "Livre BD.jpg"
+		elsif self.category == "Bar restaurant"
+			goodpicture = "Bar restaurant.jpg"
+		elsif self.category == "Contenu web"
+			goodpicture = "Contenu web.jpg"
+		elsif self.category == "Evenement"
+			goodpicture = "Evenement.jpg"
+		elsif self.category == "Jeux vidéo"
+			goodpicture = "Jeux vidéo.jpg"
+		elsif self.category == "Lieux culturels"
+			goodpicture = "Lieux culturels.jpeg"
+		elsif self.category == "autre"
+			goodpicture = "Autres.jpg"
 		end
 	end
 end

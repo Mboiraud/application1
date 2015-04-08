@@ -1,5 +1,5 @@
 <li>
-  <%= gravatar_for user, :size => 30 %>
+  <%= image_tag user.avatar.url(:small) %>
   <%= link_to user.nom, user %>
   <% if current_user.admin? %>
   | <%= link_to "supprimer l'utilisateur", user, :method => :delete, :data => {:confirm => 'Are you sure?'},

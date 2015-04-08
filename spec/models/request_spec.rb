@@ -23,13 +23,13 @@ RSpec.describe Request, :type => :model do
 	end
 	
 	it "dervait créer une instance request avec les bons attributs" do
-		Request.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "film", :group => "new")
+		Request.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "Film", :group => "new")
 	end
 	
 	describe "associations avec l'utilisateur" do
 	
 		before(:each) do
-			@request = Request.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "film", :group => "new")
+			@request = Request.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "Film", :group => "new")
 		end
 		
 		it "devrait avoir un attribut :sender" do
@@ -58,7 +58,7 @@ RSpec.describe Request, :type => :model do
 			@attr = { 	:sender_id => @user.id,
 							:receiver_id => @friend.id,
 							:content => @content,
-							:category => "film",
+							:category => "Film",
 							:group => "new" }
 		end
 		
@@ -102,7 +102,7 @@ RSpec.describe Request, :type => :model do
 			@friendship = @user.friendships.find_by_friend_id(@friend.id)
 			expect(@friendship.id).to eq(1)
 			expect { @friendship.destroy }.to change(Friendship, :count).by(-1)
-			expect(Request.new(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content)).not_to be_valid
+			expect(Request.new(@attr)).not_to be_valid
 		end
 	end
 end

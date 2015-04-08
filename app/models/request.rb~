@@ -20,7 +20,7 @@ class Request < ActiveRecord::Base
 	validates :content, :length => { :maximum => 200 }
 	validates :sender, :presence => true
 	validates :receiver, :presence => true
-	validates :category, :presence => true, inclusion: { in: %w(film musique)}
+	validates :category, :presence => true, inclusion: { in: ["Film", "Musique", "Série", "Livre BD", "Bar restaurant", "Contenu web", "Evenement", "Jeux vidéo", "Lieux culturels", "autre"]}
 	validates :group, :presence => true, inclusion: { in: %w(new old)}
 	validate :must_be_friends
 	
@@ -32,11 +32,12 @@ class Request < ActiveRecord::Base
 				errors.add(:base, 'vous devez être amis')
 			end
 		end
-		
-		#def changerequest(a)
-			#if self.id = a.fromrequest_id
-			#	self.group = "old"
-			#	self.save!
-			#end
-		#end
+	
+		def goodpicture
+		if self.category == "Film"
+			goodpicture = "movie_clapper.jpg"
+		else self.category == "Musique"
+			goodpicture = "music.jpg"
+		end
+	end
 end

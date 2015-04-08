@@ -1,0 +1,22 @@
+ 	<div class="recommendation">
+ 		<%= image_tag(feedtodo_item.goodpicture, :class => "recoimg") %>
+ 	   <span class="category">
+      <%= feedtodo_item.category %>
+    	</span> 		
+ 	   <span class="sender">
+      <%= feedtodo_item.sender.nom %>
+    	</span>
+    	<%= image_tag("profil.png", :class => "senderimg") %>
+    	<span class="item">
+      <%= feedtodo_item.item %> 
+    	</span>
+    	<span class="content"><%= feedtodo_item.content %></span>
+    	<span class="timestamp">
+      <%= time_ago_in_words(feedtodo_item.created_at) %>.
+    	</span>
+    	<div class = "buttons" >
+    	<span class = "dejavu importantbuttons" ><%= link_to "Supprimer", feedtodo_item, :method => :delete,
+                                     data: { :confirm => "Etes-vous certain ?" } %></span>
+      <span class = "dejavu importantbuttons" ><%= link_to "Recommander", new_recommendation_path({:receiver_id => feedtodo_item.sender.id, :category => feedtodo_item.category, :fromrequest_id => feedtodo_item.id, :item => feedtodo_item.item }) %></span>
+      </div>
+  	</div>

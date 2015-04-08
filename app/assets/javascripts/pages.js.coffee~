@@ -2,6 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$('.button').click ->
-  $('.dropdown').slideToggle()
-  return
+<script>
+$(".button").click(function(){
+   
+    $(".dropdown").slideToggle();
+    
+});
+</script>

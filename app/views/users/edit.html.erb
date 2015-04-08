@@ -1,10 +1,13 @@
 <nav class = "edit" >
 <div class = "grdimgprofil">
-  	<%= gravatar_for @user %>
-  	<a href="http://gravatar.com/emails">changer</a>
+  	<%= image_tag current_user.avatar.url(:small) %>
 </div>
-<%= form_for(@user) do |f| %>
+<%= form_for @user, html: { multipart: true } do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
+  		<div class="avatarfield">
+  			<%= f.label :avatar %><br>
+  			<%= f.file_field :avatar %>
+  		</div>
   		<div class="field">
 	  		<%= f.label :nom, "Nom" %><br>
 	  		<%= f.label :email, "eMail" %><br>

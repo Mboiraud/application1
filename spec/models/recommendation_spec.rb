@@ -11,6 +11,7 @@
 #  category       :string(255)
 #  item           :string(255)
 #  fromrequest_id :integer
+#  group          :string(255)
 #
 
 require 'rails_helper'
@@ -25,13 +26,13 @@ RSpec.describe Recommendation, :type => :model do
 	end
 	
 	it "dervait créer une instance recommendation avec les bons attributs" do
-		Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "film", :item => "un titre de film")
+		Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "Film", :item => "un titre de film", :group => "new")
 	end
 	
 	describe "associations avec l'utilisateur" do
 	
 		before(:each) do
-			@recommendation = Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "film", :item => "un titre de film")
+			@recommendation = Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "Film", :item => "un titre de film", :group => "new")
 		end
 		
 		it "devrait avoir un attribut :sender" do
@@ -44,6 +45,10 @@ RSpec.describe Recommendation, :type => :model do
 		
 		it "devrait avoir un attribut :category" do
 			expect(@recommendation).to respond_to(:category)
+		end
+		
+		it "devrait avoir un attribut :group" do
+			expect(@recommendation).to respond_to(:group)
 		end
 		
 		it "devrait avoir les bons utilisateurs associés" do
@@ -60,10 +65,15 @@ RSpec.describe Recommendation, :type => :model do
 			@attr = { 	:sender_id => @user.id, 
 							:receiver_id => @friend.id, 
 							:content => @content, 
-							:category => "film" , 
-							:item => "un titre de film" }
+							:category => "Film" , 
+							:item => "un titre de film",
+							:group => "new" }
 		end
-	
+		
+		it "devrait être valide" do
+			expect(Recommendation.new(@attr)).to be_valid
+		end
+		
 		it "requiert un sender" do
 			expect(Recommendation.new(@attr.merge(:sender_id => nil))).not_to be_valid
 		end
@@ -91,19 +101,27 @@ RSpec.describe Recommendation, :type => :model do
 		it "requiert un item" do
 			expect(Recommendation.new(@attr.merge(:item => nil))).not_to be_valid
 		end
+		
+		it "requiert un group" do
+			expect(Recommendation.new(@attr.merge(:group => nil))).not_to be_valid
+		end
+		
+		it "requiert un group valide" do
+			expect(Recommendation.new(@attr.merge(:group => "mauvais groupe"))).not_to be_valid
+		end
 			
 		it "devrait refuser si les deux ne sont pas amis" do
 			@friendship = @user.friendships.find_by_friend_id(@friend.id)
 			expect(@friendship.id).to eq(1)
 			expect { @friendship.destroy }.to change(Friendship, :count).by(-1)
-			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :item => "titre de film")).not_to be_valid
+			expect(Recommendation.new(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :item => "titre de film", :group => "new", :category => "Film")).not_to be_valid
 		end
 		
 		describe "de l'attribut fromrequest_id" do
 			
 			it "devrait créer une recommandation from une request valide" do
-				@request1 = Request.create!(:sender_id => @friend.id, :receiver_id => @user.id, :content => @content, :category => "film", :group => "new")
-				@reco1 = Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "film", :item => "un titre de film", :fromrequest_id => @request1.id)
+				@request1 = Request.create!(:sender_id => @friend.id, :receiver_id => @user.id, :content => @content, :category => "Film", :group => "new")
+				@reco1 = Recommendation.create!(:sender_id => @user.id, :receiver_id => @friend.id, :content => @content, :category => "Film", :item => "un titre de film", :fromrequest_id => @request1.id, :group => "new")
 				@reco1.changerequest
 				@request1.reload
 				expect(@reco1.fromrequest_id).to eq(1)

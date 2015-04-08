@@ -34,6 +34,8 @@ class User < ActiveRecord::Base
 										:dependent => :destroy
 	has_many :sent_requests, :class_name => "Request", :foreign_key => "sender_id"
 	
+	has_attached_file :avatar, :styles => { :large => "600x600>", :medium => "300x300", :small => "150x150#" }
+	validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 		
 	validates :nom, 	:presence => true,
 							:length => { :maximum => 50 }
@@ -61,8 +63,13 @@ class User < ActiveRecord::Base
 	end
 	
 	def feed2
-		feeditems = recommendations + requests#.where(:group => "new")
+		feeditems = recommendations.where(:group => "new") + requests.where(:group => "new")
 		feeditems.sort_by(&:created_at).reverse
+	end
+
+	def feedtodo(category)
+		feedtodoitems = recommendations.where(:group => "todolist", :category => category)
+		feedtodoitems.sort_by(&:created_at).reverse
 	end
 
 	def friend?(user, friend)

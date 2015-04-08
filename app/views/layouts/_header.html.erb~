@@ -6,11 +6,11 @@
 				<div class="dropdown">
 					<% if signed_in? %>
 					<%= link_to "News", root_path %>
+					<%= link_to "To do list", todolist_user_path(current_user, :category => "Film") %>
 					<%= link_to "Utilisateurs", users_path %>
       			<%= link_to "Réglages", edit_user_path(current_user) %>
       			<%= link_to "profil", current_user %>
       			<% end %>
-					<%= link_to "Aide", help_path %>
 					<% if signed_in? %>
 		   		<%= link_to "Déconnexion", signout_path, :method => :delete %>
 		   		<% else %>

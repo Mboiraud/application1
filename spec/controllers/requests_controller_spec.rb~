@@ -25,7 +25,7 @@ render_views
     	end
 
     	it "devrait créer une request" do
-        	expect { post :create, :request => { :receiver_id => @friend, :content => "la demande", :category => "film" } }.to change(Request, :count).by(1)
+        	expect { post :create, :request => { :receiver_id => @friend, :content => "la demande", :category => "film", :group => "new" } }.to change(Request, :count).by(1)
         	expect(response).to be_redirect 
         	req1 = @user1.sent_requests.find_by_id(1)
         	expect(req1.sender_id).to eq(@user1.id)
@@ -41,7 +41,7 @@ render_views
       	@user1 = test_sign_in(FactoryGirl.create(:user))
       	@friend = FactoryGirl.create(:user, :email => "autree@gmail.com")
       	@user1.friendships.create(:friend_id => @friend.id, :status => "accepted")
-      	post :create, :request => { :receiver_id => @friend, :content => "la recommendation", :category => "film" }
+      	post :create, :request => { :receiver_id => @friend, :content => "la recommendation", :category => "film", :group => "new" }
       	@req = @friend.requests.find_by_sender_id(@user1.id)
       	test_sign_in(@friend)
     	end		

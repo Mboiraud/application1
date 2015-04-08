@@ -1,6 +1,5 @@
 <% unless @feed2_items.empty? %>
         <table class="feed2" summary="feed2">
-        <%#= @feed2_items %>
         <%= render partial: "shared/feed2_item", collection: @feed2_items %>
         </table>
         <%#<%= will_paginate @recommendations %>

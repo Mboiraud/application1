@@ -75,7 +75,7 @@ RSpec.describe Request, :type => :model do
 		end
 		
 		it "requiert un receiver" do
-			expect(Request.new(@attr.merge(@receiver_id => nil))).not_to be_valid
+			expect(Request.new(@attr.merge(:receiver_id => nil))).not_to be_valid
 		end
 		
 		it "requiert un receiver qui existe" do

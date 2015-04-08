@@ -15,15 +15,16 @@ FactoryGirl.define do
 		recommendation.content "Foo barbar"
 		recommendation.association :sender
 		recommendation.association :receiver
-		recommendation.category "film"
+		recommendation.category "Contenu web"
 		recommendation.item "titre de film"
+		recommendation.group "new"
 	end
 	
 	factory :request do |request|
 		request.content "Foo barbar"
 		request.association :sender
 		request.association :receiver
-		request.category "film"
+		request.category "Film"
 		request.group "new"
 	end
 end

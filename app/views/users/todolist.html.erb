@@ -1,0 +1,21 @@
+<h1>To do list <%= @categorytitle %> </h1>
+<%= link_to "Films", todolist_user_path(current_user, :category => "Film") %>
+<%= link_to "Musiques", todolist_user_path(current_user, :category => "Musique") %>
+<%= link_to "Séries", todolist_user_path(current_user, :category => "Série") %>
+<%= link_to "Livres BD", todolist_user_path(current_user, :category => "Livre BD") %>
+<%= link_to "Bars restaurants", todolist_user_path(current_user, :category => "Bar restaurant") %>
+<%= link_to "Contenus web", todolist_user_path(current_user, :category => "Contenu web") %>
+<%= link_to "Evenements", todolist_user_path(current_user, :category => "Evenement") %>
+<%= link_to "Jeux vidéos", todolist_user_path(current_user, :category => "Jeux vidéo") %>
+<%= link_to "Lieux culturels", todolist_user_path(current_user, :category => "Lieux culturels") %>
+<%= link_to "Autres", todolist_user_path(current_user, :category => "autre") %>
+<% unless @feedtodo_items.empty? %>
+			<%#=@feedtodo_items%>
+        <table class="feedtodo" summary="feedtodo">
+        <%= render partial: "shared/feedtodo_item", collection: @feedtodo_items %>
+        </table>
+<% end %>
+
+
+
+

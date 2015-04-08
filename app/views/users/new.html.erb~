@@ -1,21 +1,21 @@
 <h1>Inscription</h1>
 
-<%= form_for(@user) do |f| %>
-  <%= render 'shared/error_messages' %>
-  <div class="field">
-    <%= f.label :nom %><br />
+<%= form_for(@user), html: { multipart: true } do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <div class="field_new">
+    <%= f.label :nom %><br>
     <%= f.text_field :nom %>
   </div>
-  <div class="field">
-    <%= f.label :email %><br />
+  <div class="field_new">
+    <%= f.label :email %><br>
     <%= f.text_field :email %>
   </div>
-  <div class="field">
-    <%= f.label :password %><br />
+  <div class="field_new">
+    <%= f.label :password %><br>
     <%= f.password_field :password %>
   </div>
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirmation" %><br />
+  <div class="field_new">
+    <%= f.label :password_confirmation, "Confirmation" %><br>
     <%= f.password_field :password_confirmation %>
   </div>
   <div class="actions">

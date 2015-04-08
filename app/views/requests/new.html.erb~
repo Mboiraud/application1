@@ -15,7 +15,7 @@
     	<%= f.text_area :content %>
   	</div>
   	<div class="actions">
-  		<% f.hidden_field :group %>
+  		<%= f.hidden_field :group %>
     	<%= f.submit "Soumettre" %>
   	</div>
 <% end %>
